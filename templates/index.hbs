@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>REGISTER|ASK-Softwares</title>
+	<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    {{>header}}
+    	<h1>REGISTER</h1>
+    	<form id="RegForm">
+    		<input type="text" id="username" placeholder="Username">
+    		<input type="password" id="password" placeholder="Password">
+    		<input type="submit" value="SUBMIT">
+    	</form>
+    	<script>
+    		const form = document.getElementById('RegForm')
+    		form.addEventListener('submit', registerUser)
+
+    		async function registerUser(event){
+    			console.log("submit btn pressed")
+    			event.preventDefault()
+    			const user = document.getElementById('username').value
+    			const password = document.getElementById('password').value
+
+
+    			const result = await fetch('/api/Register-db',{
+    				method: "POST",
+    				headers: {
+    					'Content-Type': 'application/json',
+    				},
+    				body:JSON.stringify({
+    					user,
+    					password
+    				})
+    			}).then((res) => res.json())
+    			if(result.status==="ok"){
+    				alert("Success")
+    			}else{
+    				alert(result.error)
+    			}
+    		}
+    	</script>
+    {{>footer}}
+</body>
+</html>
